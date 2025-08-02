@@ -1,0 +1,166 @@
+{
+  // FOR THE SITE'S COLOR MODE
+  document.getElementById("pageColor").addEventListener("click", function () {
+    if (!document.body.classList.contains("whiteColor")) {
+      document.body.classList.add("whiteColor");
+      document.getElementById("pageColor").innerHTML = "DARK MODE";
+    } else {
+      document.body.classList.remove("whiteColor");
+      document.getElementById("pageColor").innerHTML = "LIGHT MODE";
+    }
+  });
+}
+
+let screen = document.getElementById("screen");
+let result = document.getElementById("result");
+
+// ADD EVENT LISTENER FOR EVERY BUTTON
+let numberButtons = document.querySelectorAll(".num , .ope");
+
+for (let i = 0; i < numberButtons.length; i++) {
+  numberButtons[i].addEventListener("click", function () {
+    screen.innerHTML += this.value;
+  });
+}
+
+const equal = document.getElementById("equal");
+const del = document.getElementById("del");
+del.addEventListener(
+  "click",
+  () => (screen.innerHTML = screen.innerHTML.slice(0, -1))
+);
+equal.addEventListener("click", function (){ 
+  screen.innerHTML = "";
+  result.innerHTML = "";
+}
+);
+
+const allButtons = document.querySelectorAll(".buttons");
+
+for (let i = 0; i < allButtons.length; i++) {
+  // AFTER ALL BUTTON CLICKS, EVALUATE THE EXPRESSION AGAIN AND SHOW IT
+  
+  allButtons[i].addEventListener('click', function(){
+    if (allButtons[i].innerHTML == '.'){
+      setTimeout(() => console.log(`Waiting for  .  `) , 1000)
+    }
+    else{
+      res = evaluateExpression(screen.innerHTML);
+    setTimeout(() => result.innerHTML = res , 1000)
+    }
+    })
+}
+
+
+
+function doOperation(num1, ope, num2) {
+  switch (ope) {
+    case "/":
+      return Number(num1) / Number(num2);
+    case "*":
+      return Number(num1) * Number(num2);
+    case "+":
+      return Number(num1) + Number(num2);
+    case "-":
+      return Number(num1) + -Number(num2);
+    default:
+      return "ERROR AT doOperation()";
+  }
+}
+
+function separateAndConvert(expressionString) {
+  const regexLasso = /\d+(\.\d+)?|[+\-*/]/g; // Our magical lasso pattern
+  const capturedParts = expressionString.match(regexLasso); // Catch 'em all
+
+  const finalArray = capturedParts.map((part) => {
+    // Check if it's an operator (isNaN is true) or a number (isNaN is false)
+    return isNaN(part) ? part : parseFloat(part); // Convert number strings to actual numbers
+  });
+
+  return finalArray;
+}
+
+function evaluateExpression(inputStr) {
+  // IMPORTANT ==>> rarr is result array and rval is result value!!
+  console.log(`--- \nINPUT STRING: ${inputStr}`);
+
+  let rarr = separateAndConvert(inputStr);
+
+  console.log(`FIRST RARR (INPUT AFTER ) separateAndConvert(inputStr): ${rarr}`);
+
+  /// CHANGE 5/-4 !!!!-
+  if (rarr[0] == "-" && rarr[1]) {
+    rarr[1] = -rarr[1];
+    rarr.splice(0, 1);
+  }
+
+  if (rarr[0] == "+" || rarr[0] == "/" || rarr[0] == "*" || rarr[0] == ".") {
+    screen.innerHTML = inputStr.slice(1);
+    rarr.splice(0, 1);
+  }
+
+  console.log(`SECOND RARR: ${rarr}`);
+  if (rarr.length % 2 === 0) return "rarr.length % 2 == 0"; // IF THE EXPRESSION STILL CONTINUES SHOW BLANK
+
+  for (let i = 0; i < rarr.length; i++) {
+    if (typeof rarr[i] == "string" && typeof rarr[i + 1] == "string") {
+      rarr.splice(i, 1);
+    }
+  }
+  screen.innerHTML = rarr.join("");
+  console.log(`THIRD RARR: ${rarr}`);
+
+  while (true) {
+    if (rarr.includes("/")) {
+      opeIndex = rarr.indexOf("/");
+
+      let rval = doOperation(
+        rarr[opeIndex - 1],
+        rarr[opeIndex],
+        rarr[opeIndex + 1]
+      );
+      rarr.splice(opeIndex - 1, 3, rval);
+      continue;
+    }
+
+    if (rarr.includes("*")) {
+      opeIndex = rarr.indexOf("*");
+
+      let rval = doOperation(
+        rarr[opeIndex - 1],
+        rarr[opeIndex],
+        rarr[opeIndex + 1]
+      );
+      rarr.splice(opeIndex - 1, 3, rval);
+      continue;
+    }
+
+    if (rarr.includes("-", 1)) {
+      // if its the first number than its a negative num not a operation
+      opeIndex = rarr.indexOf("-");
+
+      let rval = doOperation(
+        rarr[opeIndex - 1],
+        rarr[opeIndex],
+        rarr[opeIndex + 1]
+      );
+      rarr.splice(opeIndex - 1, 3, rval);
+      continue;
+    }
+
+    if (rarr.includes("+")) {
+      opeIndex = rarr.indexOf("+");
+
+      let rval = doOperation(
+        rarr[opeIndex - 1],
+        rarr[opeIndex],
+        rarr[opeIndex + 1]
+      );
+      rarr.splice(opeIndex - 1, 3, rval);
+      continue;
+    }
+
+    return rarr[0]; // RETURN THE RESULT
+  }
+}
+

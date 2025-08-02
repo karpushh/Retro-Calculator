@@ -1,0 +1,130 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  /* Define the bold version */
+  font-family: "digitalFont"; /* Use the SAME family name */
+  src: url("/extras/ds_digital/DS-DIGI.TTF") format("truetype");
+  font-weight: normal; /* or 700 */
+  font-style: normal;
+}
+
+body {
+/*   background-color: rgb(97, 97, 97); */
+/*     background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.664) 0%,
+    rgba(179, 179, 179, 0.555) 35%,
+    rgb(90, 90, 90) 100%
+  ); */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: rgb(98, 121, 141);
+  transition-duration: 1000ms;
+}
+
+#allWrapper {
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+  padding-bottom: 20px;
+  background-color: rgb(56, 61, 56);
+  border: 3px solid rgba(0, 0, 0, 0.349);
+  border-radius: 10px;
+}
+#screenWrapper {
+  margin: 0;
+  margin-bottom: 10px;
+  height: 200px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(17, 59, 35, 0.295);
+  border: 2px solid rgba(0, 0, 0, 0.404);
+  border-radius: 10px;
+  border-collapse: collapse;
+}
+
+#inputScreen {
+  
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%);
+  right: 2%;
+  font-family: "digitalFont", "DS-Digital", monospace;
+  font-size: 55px;
+  color: rgb(0, 0, 0);
+
+}
+#resultScreen {
+  padding: 0px 0px;
+  position: absolute;
+  top: 85%;
+  right: 2%;
+  font-family: "digitalFont", "DS-Digital", monospace;
+  font-size: 30px;
+  font-weight: 700;
+  color: rgb(0, 0, 0);
+}
+#buttonsWrapper {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  grid-template-columns: auto auto auto auto;
+  gap: 5px 5px;
+  place-content: center center;
+  height: 460px;
+  width: 380px;
+  background-color: rgba(158, 158, 158, 0.233);
+  border: 2px solid rgba(0, 0, 0, 0.493);
+  border-radius: 10px;
+}
+
+.aButtonWrapper {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 85px;
+  height: 85px;
+  background-color: #313131;
+  border: 2px solid rgb(29, 29, 29);
+  border-right: 0px;
+  border-radius: 10px;
+}
+
+.mathButtons,
+.ope,
+.mathOpe {
+  font-family: "digitalFont", "DS-Digital", monospace;
+  padding: 0;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 65px;
+  height: 65px;
+  background-color: rgb(78, 78, 78);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.658);
+  box-shadow: -4px -4px 2px rgb(105, 105, 105);
+  font-size: 40px;
+  cursor: pointer;
+  user-select: none;
+}
+.animateWhenClicked {
+  top: 7px;
+  left: 7px;
+}
+
+#clearButtonWrapper{
+  position: fixed;
+  left:450px;
+}
